@@ -1,0 +1,42 @@
+// client/index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 1 - Consume API</title>
+    <script>
+      const completed = (e) => {
+        const data = JSON.parse(e.target.responseText);
+        document.getElementById("result").innerHTML = `
+        Tipo de Cambio Compra: ${data.TipoCompra} <br>
+        Tipo de Cambio Venta: ${data.TipoVenta}`;
+      };
+
+      const error = () => console.log(this.responseText);
+
+      function getExchangeRate() {
+        const currency = document.getElementById("currencySelect").value;
+        const ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.addEventListener("load", completed);
+        ajaxRequest.addEventListener("error", error);
+        ajaxRequest.open(
+          "GET",
+          `http://localhost:3000/tipodecambio?type=${currency}`
+        );
+        ajaxRequest.send();
+      }
+    </script>
+  </head>
+
+  <body>
+    <label for="currencySelect">Select Currency:</label>
+    <select id="currencySelect" onchange="getExchangeRate()">
+      <option value="usd">USD</option>
+      <option value="eur">EUR</option>
+    </select>
+
+    <h3>Results:</h3>
+    <div id="result"></div>
+  </body>
+</html>
