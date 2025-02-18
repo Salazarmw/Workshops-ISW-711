@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Courses Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/functions.js" defer></script>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+      <!-- Navigation -->
+      <div class="mb-4">
+        <a
+          href="index.html"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Manage Teachers
+        </a>
+      </div>
+
+      <!-- Course Form -->
+      <form class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Course Name</label
+            >
+            <input
+              type="text"
+              id="course_name"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Credits</label
+            >
+            <input
+              type="number"
+              id="credits"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
+
+        <div class="flex gap-2">
+          <button
+            type="button"
+            id="saveCourseBtn"
+            onclick="createCourse()"
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            id="updateCourseBtn"
+            onclick="updateCourse()"
+            class="hidden bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            id="cancelCourseBtn"
+            onclick="cancelCourseEdit()"
+            class="hidden bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <!-- Courses Table -->
+      <div class="mb-4">
+        <button
+          type="button"
+          id="getTeachersBtn"
+          onclick="getCourses();"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Refresh Courses
+        </button>
+      </div>
+      <div class="bg-white rounded-lg shadow-md">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Course Name
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Credits
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            id="coursesTable"
+            class="bg-white divide-y divide-gray-200"
+          ></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
