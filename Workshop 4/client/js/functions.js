@@ -57,22 +57,40 @@ async function createTeacher() {
     first_name: document.getElementById("first_name").value,
     last_name: document.getElementById("last_name").value,
     cedula: document.getElementById("cedula").value,
-    age: document.getElementById("age").value,
+    age: parseInt(document.getElementById("age").value, 10), // Convertir a número
     course: document.getElementById("course_id").value,
   };
 
-  const response = await fetch("http://localhost:3001/api/teachers", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(teacher),
-  });
+  // Validación básica de campos
+  if (
+    !teacher.first_name ||
+    !teacher.last_name ||
+    !teacher.cedula ||
+    !teacher.age ||
+    !teacher.course
+  ) {
+    alert("All fields are required!");
+    return;
+  }
 
-  if (response.ok) {
-    alert("Teacher created successfully");
-    getTeachers();
-    document.querySelector("form").reset(); // Limpiar el formulario
-  } else {
-    alert("Error creating teacher");
+  try {
+    const response = await fetch("http://localhost:3001/api/teachers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(teacher),
+    });
+
+    if (response.ok) {
+      alert("Teacher created successfully");
+      getTeachers();
+      document.querySelector("form").reset(); // Limpiar el formulario
+    } else {
+      const errorData = await response.json(); // Obtener detalles del error
+      alert(`Error creating teacher: ${errorData.error || "Unknown error"}`);
+    }
+  } catch (error) {
+    console.log("Network or server error:", error);
+    alert("An unexpected error occurred.");
   }
 }
 
@@ -102,29 +120,50 @@ async function editTeacher(id) {
  * Actualiza un profesor existente.
  */
 async function updateTeacher() {
+  // Recolectar los datos del formulario
   const teacher = {
     first_name: document.getElementById("first_name").value,
     last_name: document.getElementById("last_name").value,
     cedula: document.getElementById("cedula").value,
-    age: document.getElementById("age").value,
+    age: parseInt(document.getElementById("age").value, 10), // Asegurarse de que sea un número
     course: document.getElementById("course_id").value,
   };
 
-  const response = await fetch(
-    `http://localhost:3001/api/teachers?id=${currentEditId}`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(teacher),
-    }
-  );
+  // Validar que todos los campos necesarios están presentes
+  if (
+    !teacher.first_name ||
+    !teacher.last_name ||
+    !teacher.cedula ||
+    !teacher.age ||
+    !teacher.course
+  ) {
+    alert("All fields are required!");
+    return;
+  }
 
-  if (response.ok) {
-    alert("Teacher updated successfully");
-    getTeachers();
-    cancelEdit(); // Limpiar el formulario y restaurar botones
-  } else {
-    alert("Error updating teacher");
+  try {
+    // Enviar la solicitud PATCH al servidor
+    const response = await fetch(
+      `http://localhost:3001/api/teachers?id=${currentEditId}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(teacher),
+      }
+    );
+
+    if (response.ok) {
+      alert("Teacher updated successfully");
+      getTeachers();
+      cancelEdit();
+    } else {
+      const errorData = await response.json();
+      console.error("Error updating teacher:", errorData);
+      alert("Error updating teacher: " + (errorData.error || "Unknown error"));
+    }
+  } catch (error) {
+    console.log("Network or server error:", error);
+    alert("An unexpected error occurred while updating the teacher.");
   }
 }
 
@@ -174,7 +213,8 @@ async function getCourses() {
     .map(
       (course) => `
     <tr>
-      ...
+      <td class="px-6 py-4 whitespace-nowrap">${course.name}</td>
+      <td class="px-6 py-4 whitespace-nowrap">${course.credits}</td>
       <td class="px-6 py-4 whitespace-nowrap">
         <button onclick="editCourse('${course._id}')" ...>Edit</button> <!-- Quitar .$oid -->
         <button onclick="deleteCourse('${course._id}')" ...>Delete</button>

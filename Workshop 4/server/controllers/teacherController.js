@@ -15,29 +15,32 @@ const teacherPost = async (req, res) => {
   teacher.age = req.body.age;
   teacher.course = req.body.course;
 
-  if (teacher.first_name && teacher.last_name) {
-    await teacher
-      .save()
-      .then((data) => {
-        res.status(201); // CREATED
-        res.header({
+  // Validación de campos requeridos
+  if (
+    teacher.first_name &&
+    teacher.last_name &&
+    teacher.cedula &&
+    teacher.age &&
+    teacher.course
+  ) {
+    try {
+      const data = await teacher.save();
+      res
+        .status(201)
+        .header({
           location: `/api/teachers/?id=${data.id}`,
-        });
-        res.json(data);
-      })
-      .catch((err) => {
-        res.status(422);
-        console.log("error while saving the teacher", err);
-        res.json({
-          error_code: 1233,
-          error: "There was an error saving the teacher",
-        });
+        })
+        .json(data);
+    } catch (err) {
+      console.log("Error while saving the teacher", err);
+      res.status(422).json({
+        error_code: 1233,
+        error: "There was an error saving the teacher",
       });
+    }
   } else {
-    res.status(422);
-    console.log("error while saving the teacher");
-    res.json({
-      error: "No valid data provided for teacher",
+    res.status(422).json({
+      error: "Missing required data for teacher",
     });
   }
 };
