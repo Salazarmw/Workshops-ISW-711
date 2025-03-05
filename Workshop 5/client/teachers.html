@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teachers Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/functions.js" defer></script>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+      <!-- Navigation -->
+      <div class="mb-4">
+        <a
+          href="courses.html"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Manage Courses
+        </a>
+      </div>
+
+      <!-- Teacher Form -->
+      <form class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >First Name</label
+            >
+            <input
+              type="text"
+              id="first_name"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Last Name</label
+            >
+            <input
+              type="text"
+              id="last_name"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Cédula</label
+            >
+            <input
+              type="text"
+              id="cedula"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Age</label>
+            <input
+              type="number"
+              id="age"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"
+              >Course</label
+            >
+            <select
+              id="course_id"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            ></select>
+          </div>
+        </div>
+
+        <div class="flex gap-2">
+          <button
+            type="button"
+            id="saveBtn"
+            onclick="createTeacher()"
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            id="updateBtn"
+            onclick="updateTeacher()"
+            class="hidden bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            id="cancelBtn"
+            onclick="cancelEdit()"
+            class="hidden bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <!-- Teachers Table -->
+      <div class="mb-4">
+        <button
+          type="button"
+          id="getTeachersBtn"
+          onclick="getTeachers();"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Refresh Teachers
+        </button>
+      </div>
+      <div class="bg-white rounded-lg shadow-md">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Name
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Cédula
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Age
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Course
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            id="teachersTable"
+            class="bg-white divide-y divide-gray-200"
+          ></tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
